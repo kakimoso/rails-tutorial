@@ -16,10 +16,13 @@ gem 'jquery-rails', '4.3.1'
 gem 'turbolinks',   '5.0.1'
 gem 'jbuilder',     '2.7.0'
 
-
 group :development, :test do
   gem 'sqlite3', '1.3.13'
   gem 'byebug',  '9.0.6', platform: :mri
+  gem "rspec-rails"
+  gem 'factory_girl_rails', '~> 4.8.0'
+  gem "guard-rspec"
+  gem "spring-commands-rspec"
 end
 
 group :development do
@@ -31,9 +34,15 @@ end
 
 group :test do
   gem 'rails-controller-testing', '1.0.2'
-  gem 'minitest-reporters',       '1.1.14'
+  # gem 'minitest-reporters',       '1.1.14'
   gem 'guard',                    '2.13.0'
-  gem 'guard-minitest',           '2.4.4'
+  # gem 'guard-minitest',           '2.4.4'
+  
+  gem "capybara"
+  gem "database_cleaner"
+  gem "launchy"
+  gem "selenium-webdriver"
+  gem "shoulda-matchers"
 end
 
 group :production do
@@ -42,4 +51,4 @@ group :production do
 end
 
 # Windows環境ではtzinfo-dataというgemを含める必要があります
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+# gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
