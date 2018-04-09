@@ -24,7 +24,6 @@ RSpec.describe Micropost, type: :model do
   it "has content" do
     @m_post.content = "  "
     @m_post.valid?
-    puts @m_post.errors.messages
     expect(@m_post.errors[:content]).to include("can't be blank")
   end
   

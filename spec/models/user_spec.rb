@@ -3,8 +3,12 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   
   before(:each) do
-    @user = User.new(name: "Example User", email: "user@example.com",
-                     password:"foobar",password_confirmation:"foobar")
+    @user = FactoryGirl.build(:user)
+  end
+  
+  # 有効なファクトリを持つこと
+  it "has a valid factory" do
+    expect(FactoryGirl.build(:user)).to be_valid 
   end
   
   # 名前、メールアドレス、パスワードがあれば有効であること
@@ -12,28 +16,28 @@ RSpec.describe User, type: :model do
     expect(@user).to be_valid
   end
   
-  # 名前が存在していること
+  # 名前がなければ無効であること
   it "is invalid without a name" do
     @user.name = nil
     @user.valid?
     expect(@user.errors[:name]).to include("can't be blank")
   end
   
-  # メールアドレスが存在していること
+  # メールアドレスなければ無効であること
   it "is invalid without a email" do
     @user.email = nil
     @user.valid?
     expect(@user.errors[:email]).to include("can't be blank")
   end
   
-  # 名前が長すぎないこと
+  # 名前が長すぎた場合無効であること
   it "is invalid with too long name" do
     @user.name = "a" * 51
     @user.valid?
     expect(@user.errors[:name]).to include(/.*is too long.*/)
   end
   
-  # メールアドレスが長すぎないこと
+  # メールアドレスが長すぎた場合無効であること
   it "is invalid with too long email" do
     @user.email = "a" * 244 + "@example.com"
     @user.valid?
@@ -52,6 +56,13 @@ RSpec.describe User, type: :model do
   end
   
   # メールアドレスが一意であること
+  it "is invalid with a duplicate email address" do
+    FactoryGirl.create(:user, email:"uniqueness@test.com")
+    user = FactoryGirl.build(:user, email:"uniqueness@test.com")
+    user.valid?
+    expect(user.errors[:email]).to include("has already been taken")
+  end
+  
   # メールアドレスは小文字で登録されること
   # db必要だから飛ばす
   
