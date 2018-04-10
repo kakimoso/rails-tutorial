@@ -13,30 +13,33 @@ RSpec.describe UsersController, type: :controller do
         @user = FactoryGirl.create(:loginuser)
       end
     
-      # 正常にレスポンスを返すこと
+      # 正常にレスポンスを返すこと
       it "responds successfully" do
         sign_in(@user)
         get :index
-        expect(response).to be_success 
+        aggregate_failures do
+          expect(response).to be_success 
+          expect(response).to have_http_status "200"
+        end
       end
       
-      # 200レスポンスを返すこと
-      it "returns a 200 response" do
-        sign_in(@user)
-        get :index
-        expect(response).to have_http_status "200"
-      end
+      # # 200レスポンスを返すこと
+      # it "returns a 200 response" do
+      #   sign_in(@user)
+      #   get :index
+      #   expect(response).to have_http_status "200"
+      # end
     end
     
-    # ゲストとして
+    # ゲストとして
     context "as a guest" do
-      # 302レスポンスを返すこと(リダイレクトされること)
+      # 302レスポンスを返すこと(リダイレクトされること)
       it "returns a 302 response" do
         get :index
         expect(response).to have_http_status "302"
       end
       
-      # サインイン画面にリダイレクトすること
+      # サインイン画面にリダイレクトすること
       it "redirects to the login page" do
         get :index
         expect(response).to redirect_to "/login"
@@ -64,6 +67,7 @@ RSpec.describe UsersController, type: :controller do
       it "display microposts" do
         sign_in @user
         get :show, params: { id: @micropost.user_id }
+        # 確認方法
         expect(response).to be_success
       end
       
@@ -76,7 +80,7 @@ RSpec.describe UsersController, type: :controller do
         @user = FactoryGirl.create(:user)
       end
       
-      # # ダッシュボードにリダイレクトすること
+      # #ダッシュボードにリダイレクトすること
       # it "redirects to the dashboard" do
       #   sign_in @user
       #   get :show, params: { id: @user.id }

@@ -21,6 +21,7 @@ FactoryGirl.define do
     activated true
     activated_at Time.zone.now
     
+    # 非管理者ユーザ
     trait :non_admin do
       admin false
     end

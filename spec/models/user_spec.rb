@@ -7,24 +7,29 @@ RSpec.describe User, type: :model do
   end
   
   # 有効なファクトリを持つこと
-  it "has a valid factory" do
+  it "has a valid factory", focus: true do
     expect(FactoryGirl.build(:user)).to be_valid 
   end
   
   # 名前、メールアドレス、パスワードがあれば有効であること
-  it "is valid with a name, email, password, and password_confirmation" do
+  it "is valid with a name, email, password, and password_confirmation", focus: true do
     expect(@user).to be_valid
   end
   
   # 名前がなければ無効であること
-  it "is invalid without a name" do
-    @user.name = nil
-    @user.valid?
-    expect(@user.errors[:name]).to include("can't be blank")
-  end
+  it { is_expected.to validate_presence_of :name }
+  
+  # it "is invalid without a name" do
+  #   @user.name = nil
+  #   @user.valid?
+  #   expect(@user.errors[:name]).to include("can't be blank")
+  # end
   
   # メールアドレスなければ無効であること
   it "is invalid without a email" do
+    
+    skip "no longer necessary"
+    
     @user.email = nil
     @user.valid?
     expect(@user.errors[:email]).to include("can't be blank")
@@ -56,12 +61,14 @@ RSpec.describe User, type: :model do
   end
   
   # メールアドレスが一意であること
-  it "is invalid with a duplicate email address" do
-    FactoryGirl.create(:user, email:"uniqueness@test.com")
-    user = FactoryGirl.build(:user, email:"uniqueness@test.com")
-    user.valid?
-    expect(user.errors[:email]).to include("has already been taken")
-  end
+  it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+  
+  # it "is invalid with a duplicate email address" do
+  #   FactoryGirl.create(:user, email:"uniqueness@test.com")
+  #   user = FactoryGirl.build(:user, email:"uniqueness@test.com")
+  #   user.valid?
+  #   expect(user.errors[:email]).to include("has already been taken")
+  # end
   
   # メールアドレスは小文字で登録されること
   # db必要だから飛ばす
