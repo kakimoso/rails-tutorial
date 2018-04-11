@@ -23,12 +23,6 @@ RSpec.describe UsersController, type: :controller do
         end
       end
       
-      # # 200レスポンスを返すこと
-      # it "returns a 200 response" do
-      #   sign_in(@user)
-      #   get :index
-      #   expect(response).to have_http_status "200"
-      # end
     end
     
     # ゲストとして
@@ -48,7 +42,7 @@ RSpec.describe UsersController, type: :controller do
   end
   
   describe "#show" do
-    # 認可されたユーザーとして
+    # 認可されたユーザーとして
     context "as an authorized user" do
       
       before do
@@ -56,7 +50,7 @@ RSpec.describe UsersController, type: :controller do
         @micropost = FactoryGirl.create(:micropost)
       end
       
-      # 正常にレスポンスを返すこと
+      # 正常にレスポンスを返すこと
       it "responds successfully" do
         sign_in @user
         get :show, params: { id: @user.id }
@@ -73,7 +67,7 @@ RSpec.describe UsersController, type: :controller do
       
     end
     
-    # 認可されていないユーザーとして
+    # 認可されていないユーザーとして
     context "as an unauthorized user" do
     
       before do

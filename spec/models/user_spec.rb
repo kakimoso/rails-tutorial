@@ -7,12 +7,12 @@ RSpec.describe User, type: :model do
   end
   
   # 有効なファクトリを持つこと
-  it "has a valid factory", focus: true do
+  it "has a valid factory" do
     expect(FactoryGirl.build(:user)).to be_valid 
   end
   
   # 名前、メールアドレス、パスワードがあれば有効であること
-  it "is valid with a name, email, password, and password_confirmation", focus: true do
+  it "is valid with a name, email, password, and password_confirmation" do
     expect(@user).to be_valid
   end
   

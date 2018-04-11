@@ -3,7 +3,14 @@ require 'rails_helper'
 RSpec.describe "User", type: :request do
   
   # include_context "project setup"
-  let(:admin_user){FactoryGirl.create(:loginuser)}
+  # let(:admin_user){FactoryGirl.create(:loginuser)}
+  
+  shared_context "project setup" do
+
+    let(:admin_user){FactoryGirl.create(:loginuser)}
+    let(:user){FactoryGirl.create(:user)}
+
+  end
 
   # ログインする
   def sign_in(user)
@@ -16,11 +23,12 @@ RSpec.describe "User", type: :request do
   # ここにログインテストを書くのはよい？
   # アクセス制御に引っかからないようにするためログインが必要なので、
   # ログイン機能自体をテストしておく
-  describe "login" do
+  describe "login", focus: true do
+    
+    include_context 'project setup'
     
     # ログインテスト
     it "success login" do
-      # admin_user = FactoryGirl.create(:loginuser)
       sign_in(admin_user)
       get users_path
       expect(response).to be_success
@@ -37,12 +45,13 @@ RSpec.describe "User", type: :request do
 
   describe "GET /users" do
     
+    include_context 'project setup'
+    
     # ログイン済みのユーザとして
     context "as logged in user" do
 
-      # 実行前にユーザを作成しログインしておく    
+      # ログインする    
       before(:each) do
-        # admin_user = FactoryGirl.create(:loginuser)
         sign_in(admin_user)
       end
       

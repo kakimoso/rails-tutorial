@@ -34,7 +34,4 @@ RSpec.describe Micropost, type: :model do
     expect(@m_post).to_not be_valid
   end
   
-  # マイクロポストは新着順に取得できること
-  # テストデータが絡むため飛ばす
-  
 end

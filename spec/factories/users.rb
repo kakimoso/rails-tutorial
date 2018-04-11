@@ -23,6 +23,7 @@ FactoryGirl.define do
     
     # 非管理者ユーザ
     trait :non_admin do
+      email "nonadmin@testemail.com"
       admin false
     end
     
