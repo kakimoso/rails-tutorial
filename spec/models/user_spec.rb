@@ -19,12 +19,6 @@ RSpec.describe User, type: :model do
   # 名前がなければ無効であること
   it { is_expected.to validate_presence_of :name }
   
-  # it "is invalid without a name" do
-  #   @user.name = nil
-  #   @user.valid?
-  #   expect(@user.errors[:name]).to include("can't be blank")
-  # end
-  
   # メールアドレスなければ無効であること
   it "is invalid without a email" do
     
@@ -63,16 +57,6 @@ RSpec.describe User, type: :model do
   # メールアドレスが一意であること
   it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   
-  # it "is invalid with a duplicate email address" do
-  #   FactoryGirl.create(:user, email:"uniqueness@test.com")
-  #   user = FactoryGirl.build(:user, email:"uniqueness@test.com")
-  #   user.valid?
-  #   expect(user.errors[:email]).to include("has already been taken")
-  # end
-  
-  # メールアドレスは小文字で登録されること
-  # db必要だから飛ばす
-  
   # パスワードが空白でないこと
   it "has password(non blank)" do
     @user.password = @user.password_confirmation = " " * 6 
@@ -92,9 +76,5 @@ RSpec.describe User, type: :model do
     returned_bool = @user.authenticated?(:remember, '')
     expect(returned_bool).to eq(false)
   end
-  
-  # 関連するmicropostsが削除されること
-  # フォロー・フォロー解除ができること
-  # 他のモデルとかfixtureとか必要だし飛ばす
   
 end
