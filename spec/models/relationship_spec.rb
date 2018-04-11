@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Relationship, type: :model, focus: true do
+RSpec.describe Relationship, type: :model do
   
   before(:each) do
     user = FactoryGirl.create(:loginuser)
@@ -13,6 +13,18 @@ RSpec.describe Relationship, type: :model, focus: true do
   it "should be valid" do
     @relationship.valid?
     expect(@relationship).to be_valid
+  end
+  
+  # follower_idがあること
+  it "should have follower_id" do
+    @relationship.follower_id = nil
+    expect(@relationship).to_not be_valid
+  end
+  
+  # followed_idがあること
+  it "should have followed_id" do
+    @relationship.followed_id = nil
+    expect(@relationship).to_not be_valid
   end
   
 end

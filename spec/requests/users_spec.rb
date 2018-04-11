@@ -23,7 +23,7 @@ RSpec.describe "User", type: :request do
   # ここにログインテストを書くのはよい？
   # アクセス制御に引っかからないようにするためログインが必要なので、
   # ログイン機能自体をテストしておく
-  describe "login", focus: true do
+  describe "login" do
     
     include_context 'project setup'
     

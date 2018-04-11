@@ -1,13 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe UsersController, type: :controller do
+RSpec.describe UsersController, type: :controller, focus: true do
 
   def sign_in(user)
     session[:user_id] = user.id
   end
 
   describe "#index" do
-    # ログイン済み
+    
+    # 認可されたユーザーとして
     context "as an authenticated user" do
       before(:each) do
         @user = FactoryGirl.create(:loginuser)
@@ -27,7 +28,7 @@ RSpec.describe UsersController, type: :controller do
     
     # ゲストとして
     context "as a guest" do
-      # 302レスポンスを返すこと(リダイレクトされること)
+      # 302レスポンスを返すこと
       it "returns a 302 response" do
         get :index
         expect(response).to have_http_status "302"
@@ -67,19 +68,19 @@ RSpec.describe UsersController, type: :controller do
       
     end
     
-    # 認可されていないユーザーとして
-    context "as an unauthorized user" do
-    
+    # ゲストとして
+    context "as guest" do
+      
       before do
-        @user = FactoryGirl.create(:user)
+        @micropost = FactoryGirl.create(:micropost)
       end
       
-      # #ダッシュボードにリダイレクトすること
-      # it "redirects to the dashboard" do
-      #   sign_in @user
-      #   get :show, params: { id: @user.id }
-      #   expect(response).to be_success
-      # end
+      # ユーザプロフィールが表示されること
+      it "redirects to the dashboard" do
+        get :show, params: { id: @micropost.user.id }
+        expect(response).to be_success
+        expect(response).to have_http_status(200)
+      end
     
     end
   end
@@ -219,7 +220,5 @@ RSpec.describe UsersController, type: :controller do
     # ほぼ他ユーザと同じためゲスト(未ログイン)省略
     
   end
-  
-  # edit followは時間があったら
   
 end
